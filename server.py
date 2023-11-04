@@ -2,7 +2,7 @@ import socket
 import threading
 
 
-NUM_SEATS = 10
+NUM_SEATS = 40
 
 seat_matrix = [True] * NUM_SEATS
 
@@ -12,8 +12,16 @@ seat_mutex = threading.Semaphore(1)
 def display_seat_matrix():
     matrix = "Seat Matrix:\n"
     for i, seat in enumerate(seat_matrix, start=1):
-        status = "Available" if seat else "Booked"
-        matrix += f"Seat {i}: {status}\n"
+        if i/10 < 1 and seat:
+            status = f" 0{i} "
+        elif i/10 > 0 and seat:
+            status = f" {i} "
+        else:
+            status = " X  "
+        # status = f" 0{i} " if seat and if i%10 === 0 else " X "
+        matrix += f"|{status}|"
+        if i%4==0:
+            matrix+="\n"
     return matrix
 
 def handle_client(client_socket):
