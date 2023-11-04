@@ -3,7 +3,6 @@ import threading
 
 
 NUM_SEATS = 40
-
 seat_matrix = [True] * NUM_SEATS
 
 
@@ -26,7 +25,11 @@ def display_seat_matrix():
 
 def handle_client(client_socket):
     while True:
+        num_client = threading.activeCount() - 1
+        price_int = (num_client*0.05*200 + 200) if num_client > 2 else 200
         action = client_socket.recv(1024).decode()
+        price = str(price_int)
+        client_socket.send(price.encode())
 
         if action == "display":
             response = display_seat_matrix()
@@ -46,7 +49,8 @@ def handle_client(client_socket):
 
             if seat_matrix[seat_choice - 1]:
                 seat_matrix[seat_choice - 1] = False
-                client_socket.send(f"\n\nSeat {seat_choice} booked successfully.\n\n".encode())
+                
+                client_socket.send(f"\n\nTransaction amount deduction of Rs {price_int} done.\nSeat {seat_choice} booked successfully.\n\n".encode())
                 seat_mutex.release()
             else:
                 client_socket.send(f"\n\nSeat {seat_choice} is already booked. Please choose another seat.\n\n".encode())
