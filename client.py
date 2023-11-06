@@ -27,7 +27,7 @@ def main():
     client.connect(("127.0.0.1", 8888))
 
     while True:
-        print("                 ****** WELCOME TO BOOKBUS ****** \n")
+        print("\n                 ****** WELCOME TO BOOKBUS ****** \n")
         print("Choose an option:")
         print("\n\n1. Register")
         print("\n\n2. Login")
@@ -49,16 +49,15 @@ def main():
             print("Invalid choice. Please try again.")
 
     while True:
-        action = input("                 ****** WELCOME TO BOOKBUS ****** \n 1) Type ""display"" if you would like to display the seat matrix \n\n 2) Type ""book <seat_number>"" to book your desired seat \n\n 3) Type ""exit"" to exit from terminal\n")
+        action = input("\n                 ****** WELCOME TO BOOKBUS ****** \n 1) Type \"display\" if you would like to display the seat matrix \n\n 2) Type \"book <seat_number>\" to book your desired seat \n\n 3) Type \"exit\" to exit from terminal\n")
         client.send(action.encode())
         
-        price = client.recv(1024)
-        price_int = float(price.decode())
+        price = client.recv(1024).decode()
        
         
         response = client.recv(1024).decode()
         print(response)
-        print(f"\n\nPrice of a seat is: Rs {price_int}\n\n")
+        print(f"\n\nPrice of a seat is: Rs {price}\n\n")
         if "booked successfully" in response:
             continue
         elif action == "exit":

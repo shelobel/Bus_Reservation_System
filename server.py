@@ -9,7 +9,9 @@ seat_matrix = [True] * NUM_SEATS
 seat_mutex = threading.Semaphore(1)
 
 def display_seat_matrix():
-    matrix = "Seat Matrix:\n"
+    matrix = "\nSeat Matrix:\n\n"
+    matrix += "| D  |\n"
+    matrix+="\n"
     for i, seat in enumerate(seat_matrix, start=1):
         if i/10 < 1 and seat:
             status = f" 0{i} "
@@ -19,6 +21,8 @@ def display_seat_matrix():
             status = " X  "
         # status = f" 0{i} " if seat and if i%10 === 0 else " X "
         matrix += f"|{status}|"
+        if((i+2)%4)==0:
+            matrix+=" "
         if i%4==0:
             matrix+="\n"
     return matrix
@@ -56,7 +60,7 @@ def handle_client(client_socket):
                 client_socket.send(f"\n\nSeat {seat_choice} is already booked. Please choose another seat.\n\n".encode())
                 seat_mutex.release()
         elif action == "exit":
-            client_socket.send(b"        ***** THANK YOU FOR AVAILING OUR SERVICE. PLEASE PROVIDE YOUR VALUABLE FEEDBACK FOR BOOKBUS! ***** ")
+            client_socket.send(b"\n\n        ***** THANK YOU FOR AVAILING OUR SERVICE. PLEASE PROVIDE YOUR VALUABLE FEEDBACK FOR BOOKBUS! ***** ")
             break
         else:
             client_socket.send(b"\n\nInvalid action. Please choose 'display', 'book <seat_number>', or 'exit'.\n\n")
