@@ -1,5 +1,6 @@
 import socket
 import threading
+import random
 
 
 NUM_SEATS = 40
@@ -27,6 +28,14 @@ def display_seat_matrix():
             matrix+="\n"
     return matrix
 
+   
+def generate_ticket(price,seat_number):
+    serial_number = random.randint(1000, 9999)
+    ticket = "Congratulations! Your transaction was successful. Your ticket has been generated. You may print it for future reference\n\n"
+    ticket += f"+------------------+\n|    BUS TICKET    |\n+------------------+\n| Serial Number:   |\n|                  |\n|       {serial_number}       |\n|                  |\n| Seat Number:     |\n|                  |\n|       {seat_number}         |\n|                  |\n| Price: ₹         |\n|                  |\n|      {price:.2f}      |\n+------------------+"
+    return ticket
+
+
 def handle_client(client_socket):
     while True:
         num_client = threading.activeCount() - 1
@@ -53,8 +62,8 @@ def handle_client(client_socket):
 
             if seat_matrix[seat_choice - 1]:
                 seat_matrix[seat_choice - 1] = False
-                
-                client_socket.send(f"\n\nTransaction amount deduction of Rs {price_int} done.\nSeat {seat_choice} booked successfully.\n\n".encode())
+                ticket = generate_ticket(price_int,seat_choice)
+                client_socket.send(ticket.encode())
                 seat_mutex.release()
             else:
                 client_socket.send(f"\n\nSeat {seat_choice} is already booked. Please choose another seat.\n\n".encode())
@@ -69,9 +78,10 @@ def handle_client(client_socket):
 
 def main():
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server.bind(("0.0.0.0", 8888))
+    server.bind(("192.168.0.179", 8888))
+   # server.bind(("0.0.0.0", 8888))
     server.listen(5)
-    print("[*] Server listening on 0.0.0.0:8888")
+    print("[*] Server listening on 192.168.0.179:8888")
     
     
     while True:

@@ -24,7 +24,7 @@ def login_user():
 
 def main():
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client.connect(("127.0.0.1", 8888))
+    client.connect(("192.168.0.179", 8888))
 
     while True:
         print("\n                 ****** WELCOME TO BOOKBUS ****** \n")
