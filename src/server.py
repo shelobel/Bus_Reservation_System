@@ -78,10 +78,10 @@ def handle_client(client_socket):
 
 def main():
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server.bind(("192.168.0.179", 8888))
+    server.bind(("<common_network's_IP_address>", 8888))
    # server.bind(("0.0.0.0", 8888))
     server.listen(5)
-    print("[*] Server listening on 192.168.0.179:8888")
+    print("[*] Server listening on <common_network's_IP_address>:8888")
     
     
     while True:
