@@ -30,7 +30,7 @@ def login_user():
 def main():
     # Connect to the server
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client.connect(("192.168.0.179", 8888))
+    client.connect(("<common_network's_IP_address>", 8888))
 
     while True:
         print("\n                 ****** WELCOME TO BOOKBUS ****** \n")
