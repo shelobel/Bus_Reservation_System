@@ -96,7 +96,7 @@ def main():
     # dummy IP of 0.0.0.0 to be replaced with the common network's IP address for multiple device communication
     server.bind(("0.0.0.0", 8888)) 
     server.listen(5)
-    print("[*] Server listening on 0.0.0.0:8888")
+    print("[*] Server listening on <common_network's_IP_address>:8888")
 
     # Accept and handle client connections in separate threads
     while True:
